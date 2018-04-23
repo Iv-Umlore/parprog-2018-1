@@ -38,7 +38,7 @@ double TIntegral(Func* fun, double Xstart, double Xfinish, double Ystart, double
 
 	double Xpart = (Xfinish - Xstart) / parts;
 	double Ypart = (Yfinish - Ystart) / parts;
-	double Xpoint;
+	double Xpoint = Xstart;
 	double Ypoint = Ystart;
 
 	double variable = 0.0;
@@ -46,11 +46,10 @@ double TIntegral(Func* fun, double Xstart, double Xfinish, double Ystart, double
 	omp_set_num_threads(threads);
     #pragma omp parallel
 	{	
-		bool use = false;
-			#pragma omp for firstprivate(fun, Xpoint, Ypoint, variable, XHigh, YHigh, parts, Xstart, Xpart) schedule(static) reduction(+:res)
+			#pragma omp for firstprivate(Xpoint, Ypoint, variable, XHigh, YHigh) schedule(static) reduction(+:res)
 						for (int i = 0; i < parts; i++) {
 							
-							Xpoint = Xstart + (i * Xpart);   // tyt
+							//Xpoint = Xstart + (i * Xpart);   // tyt
 							XHigh = ((valueIn(fun, Xpoint, Ypoint) + valueIn(fun, Xpoint + Xpart, Ypoint)) / 2);
 
 							variable = XHigh;
@@ -66,7 +65,7 @@ double TIntegral(Func* fun, double Xstart, double Xfinish, double Ystart, double
 
 							}
 							Ypoint = Ystart;
-							//Xpoint += Xpart;
+							Xpoint += Xpart;
 						 }
 
 	}
