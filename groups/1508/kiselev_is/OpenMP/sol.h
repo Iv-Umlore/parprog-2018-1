@@ -33,24 +33,24 @@ double module(double a) {
 double TIntegral(Func* fun, double Xstart, double Xfinish, double Ystart, double Yfinish, int threads = 1 , int parts = 2000) {
 	
 	double res = 0.0;
-
 	double XHigh = 0.0;
 	double YHigh = 0.0;
 
 	double Xpart = (Xfinish - Xstart) / parts;
 	double Ypart = (Yfinish - Ystart) / parts;
-	double Xpoint = Xstart;
+	double Xpoint;
 	double Ypoint = Ystart;
 
 	double variable = 0.0;
 	// старт паралельного сектора
 	omp_set_num_threads(threads);
-    #pragma omp parallel firstprivate(Xpoint,Ypoint,variable,XHigh,YHigh,Xpart,Xstart) 
+    #pragma omp parallel
 	{	
-		
-			#pragma omp for reduction(+:res)
+		bool use = false;
+			#pragma omp for firstprivate(fun, Xpoint, Ypoint, variable, XHigh, YHigh, parts, Xstart, Xpart) schedule(static) reduction(+:res)
 						for (int i = 0; i < parts; i++) {
-							Xpoint = Xstart + i * Xpart;
+							
+							Xpoint = Xstart + (i * Xpart);   // tyt
 							XHigh = ((valueIn(fun, Xpoint, Ypoint) + valueIn(fun, Xpoint + Xpart, Ypoint)) / 2);
 
 							variable = XHigh;
@@ -62,10 +62,11 @@ double TIntegral(Func* fun, double Xstart, double Xfinish, double Ystart, double
 								// (F0 + F1) / 2  // определение среднего значения трапеции через шаг по оси Y
 								res = res + ((YHigh + variable) / 2 * Xpart * Ypart); // среднее между этими значениями
 								variable = YHigh;
-							    Ypoint = Ypoint + Ypart;
+							    Ypoint += Ypart;
 
 							}
 							Ypoint = Ystart;
+							//Xpoint += Xpart;
 						 }
 
 	}

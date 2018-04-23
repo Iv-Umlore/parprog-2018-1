@@ -45,9 +45,9 @@ public:
 		 // Ќапример, что решение верное, или неверное. 
 		 // »спользовать только латинские буквы и знаки препинани€ 
 		 void write_message(string str) {
-			 write_type(ext_cls::MESSAGE);
+			 //write_type(ext_cls::MESSAGE);
 			 int l = str.size ();
-			 fwrite(&l, sizeof (l), 1, bur);
+			 //fwrite(&l, sizeof (l), 1, bur);
 			 fwrite (&str[0], sizeof (str[0]), l, bur); 
 		 }
 		 // —ообщить тестирующей системе врем€ работы программы участника, 
