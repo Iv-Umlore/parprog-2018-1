@@ -49,14 +49,14 @@ double TIntegral(Func* fun, double Xstart, double Xfinish, double Ystart, double
 			#pragma omp for firstprivate(Xpoint, Ypoint, variable, XHigh, YHigh) schedule(static) reduction(+:res)
 						for (int i = 0; i < parts; i++) {
 							
-							//Xpoint = Xstart + (i * Xpart);   // tyt
+							Xpoint = Xstart + (Xpart * i);   // tyt
 							XHigh = ((valueIn(fun, Xpoint, Ypoint) + valueIn(fun, Xpoint + Xpart, Ypoint)) / 2);
 
 							variable = XHigh;
 							// (F0 + F1) / 2  // определение среднего значения трапеции по х
 							for (int j = 0; j < parts; j++) {
 
-								YHigh = ((valueIn(fun, Xpoint, Ypoint + Ypart) + valueIn(fun, Xpoint, Ypoint + Ypart)) / 2);
+								YHigh = ((valueIn(fun, Xpoint, Ypoint + Ypart) + valueIn(fun, Xpoint/* + Xpart*/, Ypoint + Ypart)) / 2);
 
 								// (F0 + F1) / 2  // определение среднего значения трапеции через шаг по оси Y
 								res = res + ((YHigh + variable) / 2 * Xpart * Ypart); // среднее между этими значениями
@@ -65,7 +65,7 @@ double TIntegral(Func* fun, double Xstart, double Xfinish, double Ystart, double
 
 							}
 							Ypoint = Ystart;
-							Xpoint += Xpart;
+							//Xpoint += Xpart;
 						 }
 
 	}

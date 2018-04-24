@@ -1,0 +1,6 @@
+﻿  before_code.cpp
+e:\programs\parprog-2018-1\groups\1508\kiselev_is\simple-vers\func.h(3): warning C4005: '_CRT_SECURE_NO_WARNINGS': macro redefinition
+  e:\programs\parprog-2018-1\groups\1508\kiselev_is\simple-vers\func.h(3): note: command-line arguments:  see previous definition of '_CRT_SECURE_NO_WARNINGS'
+e:\programs\parprog-2018-1\groups\1508\kiselev_is\simple-vers\before_code.cpp(8): error C2601: 'main': local function definitions are illegal
+  e:\programs\parprog-2018-1\groups\1508\kiselev_is\simple-vers\sol.h(30): note: this line contains a '{' which has not yet been matched
+e:\programs\parprog-2018-1\groups\1508\kiselev_is\simple-vers\sol.h(30): fatal error C1075: '{': no matching token found
